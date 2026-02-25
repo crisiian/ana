@@ -3,189 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nariño: Corazón del Sur | Guía Turística</title>
+    <title>Nariño | Destino Místico y Ancestral</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* CSS UNIFICADO */
         :root {
-            --verde-pastuso: #2d5a27;
-            --dorado-barniz: #d4a373;
-            --oscuro: #1a1a1a;
-            --blanco: #ffffff;
+            --primary: #1b4332; /* Verde Bosque Nariñense */
+            --secondary: #d4a373; /* Dorado Barniz */
+            --accent: #bc4749; /* Rojo Carnaval */
+            --light: #f8f9fa;
+            --dark: #081c15;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: var(--oscuro);
-            background-color: #f4f4f4;
-        }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--light); color: var(--dark); }
 
+        /* HERO SECTION CON PARALLAX */
         header {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1582650859079-ee6391318a45?q=80&w=1500&auto=format&fit=crop');
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=1500&auto=format&fit=crop');
             background-size: cover;
+            background-attachment: fixed;
             background-position: center;
-            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            color: white;
             text-align: center;
-            color: var(--blanco);
             padding: 20px;
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 10px; }
-        .subtitle { font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        
+        .btn-explorer {
+            padding: 15px 35px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-explorer:hover { background: var(--primary); transform: scale(1.05); }
 
-        section { padding: 60px 20px; max-width: 1100px; margin: auto; }
-        h2 { font-family: 'Playfair Display', serif; color: var(--verde-pastuso); font-size: 2.5rem; margin-bottom: 30px; text-align: center; }
+        /* SECCIONES */
+        section { padding: 80px 10% ; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); }
 
-        /* Estilo de Tarjetas de Cultura */
-        .grid-cultura {
+        /* GALERÍA INTERACTIVA */
+        .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
         }
-
-        .card {
-            background: var(--blanco);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--dorado-barniz);
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            height: 300px;
         }
-
-        /* Tabla de Itinerario */
-        .tabla-contenedor { overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; background: var(--blanco); }
-        th, td { padding: 15px; text-align: left; border: 1px solid #ddd; }
-        th { background: var(--verde-pastuso); color: var(--blanco); }
-        tr:nth-child(even) { background: #f9f9f9; }
-
-        /* Mapa */
-        #map { height: 500px; width: 100%; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-
-        footer {
-            background: var(--oscuro);
-            color: var(--blanco);
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 50px;
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.5s;
         }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
+        .gallery-item:hover img { transform: scale(1.1); filter: brightness(70%); }
+        .gallery-text {
+            position: absolute; bottom: -50px; left: 20px; color: white;
+            transition: 0.4s; opacity: 0;
         }
+        .gallery-item:hover .gallery-text { bottom: 20px; opacity: 1; }
+
+        /* TARJETAS DE CULTURA */
+        .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .info-card {
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .info-card:hover { transform: translateY(-10px); }
+        .info-card img { width: 100%; height: 200px; object-fit: cover; }
+        .info-card-content { padding: 25px; }
+
+        /* MAPA */
+        #map { height: 500px; border-radius: 25px; border: 8px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        footer { background: var(--dark); color: white; padding: 60px 10%; text-align: center; }
+
+        @media (max-width: 768px) { section { padding: 50px 5%; } }
     </style>
 </head>
 <body>
 
     <header>
-        <p class="subtitle">EXPERIENCIA ANCESTRAL</p>
-        <h1>Nariño, Tierra de Volcanes</h1>
-        <p>Donde la fe se encuentra con la montaña y el arte con la historia.</p>
+        <h1>Nariño Profundo</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Cuna de artesanos y tierra de fe</p>
+        <a href="#experiencias" class="btn-explorer">Empezar Aventura</a>
     </header>
 
-    <section id="tradiciones">
-        <h2>Cultura y Misticismo</h2>
-        <div class="grid-cultura">
-            <div class="card">
-                <h3>🎭 Carnaval de Negros y Blancos</h3>
-                <p>La fiesta más grande del sur de Colombia. Una mezcla de ritos andinos, españoles y africanos que celebra la diversidad.</p>
+    <section id="experiencias">
+        <div class="section-title">
+            <h2>Riqueza Ancestral</h2>
+            <p>Descubre el legado de nuestra tierra a través de sus iconos</p>
+        </div>
+        
+        <div class="cards-container">
+            <div class="info-card">
+                <img src="https://images.unsplash.com/photo-1610450949065-1f2841536c99?q=80&w=800" alt="Santuario Las Lajas">
+                <div class="info-card-content">
+                    <h3>Santuario de Las Lajas</h3>
+                    <p>El milagro de Dios sobre el abismo. Considerada la iglesia más hermosa del mundo.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>🏺 Barniz de Pasto</h3>
-                <p>El Mopa-Mopa es una resina vegetal usada desde tiempos ancestrales para decorar madera. Único en el mundo.</p>
+            <div class="info-card">
+                <img src="https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?q=80&w=800" alt="Carnaval">
+                <div class="info-card-content">
+                    <h3>Carnaval de Negros y Blancos</h3>
+                    <p>Patrimonio de la Humanidad. Una fiesta de color donde todos somos iguales.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>⛪ Fe y Religión</h3>
-                <p>Conocida como la "Ciudad Teológica", Pasto alberga templos con arquitectura colonial y republicana impresionante.</p>
+            <div class="info-card">
+                <img src="https://images.unsplash.com/photo-1568200252389-05260178970e?q=80&w=800" alt="Laguna Verde">
+                <div class="info-card-content">
+                    <h3>Laguna Verde</h3>
+                    <p>Ubicada en el cráter del Volcán Azufral, es el corazón esmeralda de los Andes.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="itinerario">
-        <h2>Itinerario de 5 Días: Ruta del Sur</h2>
-        <div class="tabla-contenedor">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Día</th>
-                        <th>Ruta Principal</th>
-                        <th>Lo que verás</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Pasto Ciudad Teológica</td>
-                        <td>Museo del Oro, Templo de San Juan, Plaza de Nariño.</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>La Laguna de la Cocha</td>
-                        <td>Hospedaje en El Encano, Isla La Corota y comida típica (Trucha).</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Ipiales: El Milagro del Abismo</td>
-                        <td>Santuario de Las Lajas y paso fronterizo de Rumichaca.</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Volcán Azufral</td>
-                        <td>Caminata a la Laguna Verde (Punto de energía ancestral).</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Ruta del Café y Tradición</td>
-                        <td>Visita al municipio de La Unión para conocer el mejor café de altura.</td>
-                    </tr>
-                </tbody>
-            </table>
+    <section style="background-color: #f1f1f1;">
+        <div class="section-title">
+            <h2>Galería Visual</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://www.eltiempo.com/files/article_main/uploads/2023/01/06/63b86064f16b2.jpeg" alt="Carrozas">
+                <div class="gallery-text"><h4>Artesanía Viva</h4></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://situr.narino.gov.co/wp-content/uploads/2021/04/laguna-de-la-cocha-1.jpg" alt="La Cocha">
+                <div class="gallery-text"><h4>La Cocha</h4></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Barniz_de_Pasto_Mopa_Mopa.jpg" alt="Barniz">
+                <div class="gallery-text"><h4>Técnica Mopa-Mopa</h4></div>
+            </div>
         </div>
     </section>
 
-    <section id="rutas">
-        <h2>Mapa de Rutas y Destinos</h2>
-        <p style="text-align: center; margin-bottom: 20px;">Interactúa con el mapa para ver los puntos clave desde Pasto.</p>
+    <section id="mapa">
+        <div class="section-title">
+            <h2>Mapa Interactivo de Rutas</h2>
+            <p>Ubica los puntos sagrados y turísticos</p>
+        </div>
         <div id="map"></div>
     </section>
 
     <footer>
-        <p><strong>Nariño Mágico 2026</strong></p>
-        <p>Proyecto educativo para el fomento del turismo regional.</p>
+        <h2>Nariño Te Espera</h2>
+        <p style="margin-top: 20px;">Sigue mis proyectos en mi GitHub: <a href="https://github.com/crisiiano" style="color: var(--secondary);">@crisiiano</a></p>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inicializar Mapa centrado en Nariño
         var map = L.map('map').setView([1.1000, -77.3000], 9);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-
-        // Marcadores de Sitios Turísticos
-        var sitios = [
-            { nombre: "Pasto: Capital Sorpresa", coord: [1.2136, -77.2811] },
-            { nombre: "Santuario de Las Lajas (Ipiales)", coord: [0.8053, -77.5861] },
-            { nombre: "Laguna de la Cocha", coord: [1.1025, -77.1511] },
-            { nombre: "Volcán Azufral / Laguna Verde", coord: [1.0833, -77.6833] },
-            { nombre: "La Unión: Ruta del Café", coord: [1.6063, -77.1302] }
+        var puntos = [
+            {n: "Ipiales - Las Lajas", c: [0.8053, -77.5861]},
+            {n: "Pasto - Capital", c: [1.2136, -77.2811]},
+            {n: "Laguna de la Cocha", c: [1.1025, -77.1511]},
+            {n: "Volcán Azufral", c: [1.0833, -77.6833]}
         ];
 
-        sitios.forEach(function(sitio) {
-            L.marker(sitio.coord).addTo(map)
-                .bindPopup("<b>" + sitio.nombre + "</b><br>Punto clave de la ruta.");
+        puntos.forEach(p => {
+            L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b>`);
         });
     </script>
 </body>
